@@ -1,10 +1,23 @@
 import React from "react";
-import { FaFacebookSquare, FaGooglePlusSquare } from "react-icons/fa";
+// import { FaFacebookSquare, FaGooglePlusSquare } from "react-icons/fa";
+import { StyledAuth, signOut } from "../services/firebase";
+import { useUser } from "../contexts/UserProvider";
 
 const SignUp = () => {
+  const { currentUser } = useUser();
   return (
     <>
-      <main className="w-11/12 mx-auto">
+      {currentUser ? (
+        <div>
+          <h1>Hello, {currentUser.displayName}</h1>
+          <p className="bg-red-500" onClick={signOut}>
+            Sign out
+          </p>
+        </div>
+      ) : (
+        <StyledAuth />
+      )}
+      {/* <main className="w-11/12 mx-auto">
         <div className="mt-64 text-center">
           <h1 className="font-bold text-4xl">Instagram</h1>
           <div className="mt-14 w-80 mx-auto">
@@ -24,7 +37,7 @@ const SignUp = () => {
             <a href="https://www.instagram.com/">Instagram</a>
           </div>
         </div>
-      </main>
+      </main> */}
     </>
   );
 };
