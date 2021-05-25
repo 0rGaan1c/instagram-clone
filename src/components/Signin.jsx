@@ -1,6 +1,6 @@
 import React from "react";
 // import { FaFacebookSquare, FaGooglePlusSquare } from "react-icons/fa";
-import { StyledAuth, signOut } from "../services/firebase";
+import { StyledAuth, signOut } from "../services/auth";
 import { useUser } from "../contexts/UserProvider";
 
 const SignUp = () => {
