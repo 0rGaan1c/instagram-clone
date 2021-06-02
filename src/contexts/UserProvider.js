@@ -20,6 +20,7 @@ export const UserProvider = ({ children }) => {
 
   const value = {
     currentUser,
+    loading,
   };
 
   return (
