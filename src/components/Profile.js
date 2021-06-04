@@ -1,5 +1,8 @@
 import React from "react";
 import { useUser } from "../contexts/UserProvider";
+import { FaHome, FaSignOutAlt } from "react-icons/fa";
+import { signOut } from "../services/auth";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const {
@@ -9,17 +12,11 @@ const Profile = () => {
   return (
     <>
       <nav className="bg-gray-100 flex items-center text-xl justify-between p-2">
-        {/* <FaHome className="text-2xl cursor-pointer" /> */}
+        <Link to="/">
+          <FaHome className="text-2xl cursor-pointer" />
+        </Link>
         <h1 className="font-bold tracking-wide">{displayName}</h1>
-        {/* <div className="w-1/12 cursor-pointer">
-          <Link to="/profile">
-            <img
-              src={currentUser.photoURL}
-              alt=""
-              className="rounded-full cursor-pointer"
-            />
-          </Link>
-        </div> */}
+        <FaSignOutAlt onClick={signOut} className="text-2xl cursor-pointer" />
       </nav>
     </>
   );

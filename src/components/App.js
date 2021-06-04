@@ -12,7 +12,7 @@ const App = () => {
         <Router>
           <Switch>
             <Route exact path="/" component={Signin} />
-            <PrivateRoute path="/profile" component={Profile} />
+            <PrivateRoute path="/:name" component={Profile} />
           </Switch>
         </Router>
       </UserProvider>
