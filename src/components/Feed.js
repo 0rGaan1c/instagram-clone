@@ -5,9 +5,8 @@ import { Link } from "react-router-dom";
 import firebase from "../services/firebase-config";
 
 const Feed = () => {
-  const {
-    currentUser: { uid },
-  } = useUser();
+  const { currentUser } = useUser();
+  const { displayName: name, photoURL, email, uid } = currentUser;
   const [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {
@@ -16,13 +15,26 @@ const Feed = () => {
 
     docRef.get().then((doc) => {
       if (doc.exists) {
-        const { username, photoURL } = doc.data().personalInfo;
+        const { name, photoURL, username } = doc.data().personalInfo;
         setUserInfo({
-          username,
+          name,
           photoURL,
+          username,
         });
       } else {
-        console.log("should not happen");
+        docRef.set({
+          personalInfo: {
+            name,
+            photoURL,
+            email,
+            username: email.match(/^([^@]*)@/)[1],
+          },
+        });
+        setUserInfo({
+          name,
+          photoURL,
+          username: email.match(/^([^@]*)@/)[1],
+        });
       }
     });
   }, []);

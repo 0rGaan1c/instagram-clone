@@ -1,40 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { StyledAuth } from "../services/auth";
 import { useUser } from "../contexts/UserProvider";
-import firebase from "../services/firebase-config";
-import Feed from "./Feed";
+import ProfileSetup from "./ProfileSetup";
+// import Feed from "./Feed";
 
 const Signin = () => {
   const { currentUser } = useUser();
-
-  useEffect(() => {
-    if (currentUser) {
-      const { displayName: name, photoURL, email } = currentUser;
-      const db = firebase.firestore();
-      const docRef = db.collection("users").doc(currentUser.uid);
-
-      docRef.get().then((doc) => {
-        if (doc.exists) {
-          console.log("user already exsits");
-        } else {
-          docRef.set({
-            personalInfo: {
-              name,
-              photoURL,
-              username: name,
-              email,
-            },
-          });
-        }
-      });
-    }
-  }, []);
 
   return (
     <>
       {currentUser ? (
         <div>
-          <Feed />
+          <ProfileSetup />
+          {/* <Feed /> */}
         </div>
       ) : (
         <main className="w-11/12 mx-auto">
