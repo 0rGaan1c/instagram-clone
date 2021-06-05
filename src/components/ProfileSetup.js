@@ -11,11 +11,24 @@ const ProfileSetup = () => {
   const [ringError, setRingError] = useState("focus:ring");
   const [isUser, setIsUser] = useState(false);
   const [showPage, setShowPage] = useState(false);
+  const [usernames, setUsernames] = useState([]);
+  const [isUsernameUnique, setIsUsernameUnique] = useState(true);
 
   useEffect(() => {
     const db = firebase.firestore();
-    const docRef = db.collection("users").doc(uid);
 
+    db.collection("users")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          console.log(doc.data().personalInfo.username);
+          setUsernames((prevState) => {
+            return [...prevState, doc.data().personalInfo.username];
+          });
+        });
+      });
+
+    const docRef = db.collection("users").doc(uid);
     docRef.get().then((doc) => {
       if (doc.exists) {
         console.log("user is already there");
@@ -28,7 +41,7 @@ const ProfileSetup = () => {
   }, [isUser, uid]);
 
   const handleSubmit = () => {
-    const username = usernameRef.current.value;
+    const username = usernameRef.current.value.toLowerCase();
 
     if (username === "") {
       setRingError("ring ring-red-500");
@@ -38,10 +51,20 @@ const ProfileSetup = () => {
       return;
     }
 
-    // check for same username here before doing this tho.
+    console.log(usernames);
+    if (usernames.includes(username)) {
+      setIsUsernameUnique(false);
+      setRingError("ring ring-red-500");
+      setTimeout(() => {
+        setRingError("focus:ring");
+        setIsUsernameUnique(true);
+      }, 2000);
+      console.log("username is not unique");
+      return;
+    }
+
     const db = firebase.firestore();
     const docRef = db.collection("users").doc(uid);
-
     docRef.get().then((doc) => {
       if (doc.exists) {
         console.log("should not happen");
@@ -66,15 +89,20 @@ const ProfileSetup = () => {
 
   return (
     <>
-      {showPage ? (
+      {showPage && (
         <div className="w-3/4 mx-auto mt-64">
           <form>
             <label>
               <p className="mb-2">Choose a username</p>
+              {!isUsernameUnique && (
+                <div className="text-sm text-gray-500 text-center mb-2">
+                  Username already taken!
+                </div>
+              )}
               <input
                 type="text"
                 className={`shadow p-2 w-full outline-blue border-2 border-gray-300 shadow outline-none focus:outline-none ${ringError}`}
-                placeholder="Username"
+                placeholder="Username (case insensitive)"
                 ref={usernameRef}
               />
             </label>
@@ -86,7 +114,7 @@ const ProfileSetup = () => {
             </div>
           </form>
         </div>
-      ) : null}
+      )}
     </>
   );
 };
