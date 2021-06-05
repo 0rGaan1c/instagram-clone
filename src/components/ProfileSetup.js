@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useUser } from "../contexts/UserProvider";
-import { signOut } from "../services/auth";
 import firebase from "../services/firebase-config";
+import Feed from "./Feed";
 
 const ProfileSetup = () => {
   const {
@@ -84,7 +84,7 @@ const ProfileSetup = () => {
   };
 
   if (isUser) {
-    return <h1 onClick={signOut}>Sign Out</h1>;
+    return <Feed />;
   }
 
   return (

@@ -5,8 +5,9 @@ import { Link } from "react-router-dom";
 import firebase from "../services/firebase-config";
 
 const Feed = () => {
-  const { currentUser } = useUser();
-  const { displayName: name, photoURL, email, uid } = currentUser;
+  const {
+    currentUser: { uid },
+  } = useUser();
   const [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {
@@ -22,22 +23,10 @@ const Feed = () => {
           username,
         });
       } else {
-        docRef.set({
-          personalInfo: {
-            name,
-            photoURL,
-            email,
-            username: email.match(/^([^@]*)@/)[1],
-          },
-        });
-        setUserInfo({
-          name,
-          photoURL,
-          username: email.match(/^([^@]*)@/)[1],
-        });
+        console.log("should not happen");
       }
     });
-  }, []);
+  }, [uid]);
 
   return (
     <>
@@ -47,7 +36,7 @@ const Feed = () => {
         </Link>
         <h1 className="font-bold tracking-wide">Instagram</h1>
         <div className="w-1/12 cursor-pointer">
-          <Link to={`${userInfo.username}`}>
+          <Link to={`/${userInfo.username}`}>
             <img
               src={userInfo.photoURL}
               alt=""
