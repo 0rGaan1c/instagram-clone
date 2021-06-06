@@ -16,7 +16,7 @@ export const UserProvider = ({ children }) => {
       setCurrentUser(user);
       setLoading(false);
     });
-  }, []);
+  }, [currentUser]);
 
   const value = {
     currentUser,

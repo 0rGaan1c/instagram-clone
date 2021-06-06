@@ -2,7 +2,6 @@ import React from "react";
 import { StyledAuth } from "../services/auth";
 import { useUser } from "../contexts/UserProvider";
 import ProfileSetup from "./ProfileSetup";
-// import Feed from "./Feed";
 
 const Signin = () => {
   const { currentUser } = useUser();
@@ -12,7 +11,6 @@ const Signin = () => {
       {currentUser ? (
         <div>
           <ProfileSetup />
-          {/* <Feed /> */}
         </div>
       ) : (
         <main className="w-11/12 mx-auto">

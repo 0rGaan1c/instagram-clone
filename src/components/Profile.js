@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { FaHome, FaSignOutAlt } from "react-icons/fa";
-import { signOut } from "../services/auth";
 import { Link, useParams } from "react-router-dom";
 import firebase from "../services/firebase-config";
 import { useUser } from "../contexts/UserProvider";
+import NavBar from "./NavBar";
 
 const Profile = () => {
   const {
@@ -11,8 +10,10 @@ const Profile = () => {
   } = useUser();
   const [userInfo, setUserInfo] = useState({});
   const [isUserValid, setIsUserValid] = useState(false);
-  const { username } = useParams();
+  const [loading, setLoading] = useState(true);
   const [uID, setUID] = useState(uid);
+  const [isProtected, setIsProtected] = useState(false);
+  const { username } = useParams();
 
   useEffect(() => {
     const db = firebase.firestore();
@@ -40,23 +41,37 @@ const Profile = () => {
         console.log("should not happen");
       }
     });
-  }, [uID]);
+
+    if (uid !== uID) {
+      setIsProtected(true);
+    }
+    if (isUserValid) {
+      setLoading(false);
+    } else {
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    }
+  }, [uID, uid, username, isUserValid]);
+
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <>
-      <nav className="bg-gray-100 flex items-center text-xl justify-between p-2">
-        <Link to="/">
-          <FaHome className="text-2xl cursor-pointer" />
-        </Link>
-        <h1 className="tracking-wide">{userInfo.username}</h1>
-        <FaSignOutAlt onClick={signOut} className="text-2xl cursor-pointer" />
-      </nav>
       {isUserValid ? (
-        <div>
+        <>
           <div>
             <img src={userInfo.photoURL} alt="" />
+            {isProtected ? (
+              <div> This account is protected </div>
+            ) : (
+              <div> This is your own account </div>
+            )}
           </div>
-        </div>
+          <NavBar />
+        </>
       ) : (
         <div className="text-center mt-8 w-3/4 mx-auto">
           <h1 className="font-bold text-2xl">
@@ -64,7 +79,10 @@ const Profile = () => {
           </h1>
           <p className="text-sm text-gray-500">
             The link you followed may be broken, or the page may have been
-            removed. <Link to="/">Go back to fake Instagram.</Link>
+            removed.
+            <Link to="/" className="text-blue-500">
+              Go back to fake Instagram.
+            </Link>
           </p>
         </div>
       )}

@@ -7,6 +7,7 @@ const ProfileSetup = () => {
   const {
     currentUser: { displayName, email, photoURL, uid },
   } = useUser();
+
   const usernameRef = useRef(null);
   const [ringError, setRingError] = useState("focus:ring");
   const [isUser, setIsUser] = useState(false);
@@ -21,7 +22,6 @@ const ProfileSetup = () => {
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          console.log(doc.data().personalInfo.username);
           setUsernames((prevState) => {
             return [...prevState, doc.data().personalInfo.username];
           });
@@ -51,7 +51,6 @@ const ProfileSetup = () => {
       return;
     }
 
-    console.log(usernames);
     if (usernames.includes(username)) {
       setIsUsernameUnique(false);
       setRingError("ring ring-red-500");
@@ -79,6 +78,7 @@ const ProfileSetup = () => {
           },
         });
       }
+
       setIsUser(true);
     });
   };
