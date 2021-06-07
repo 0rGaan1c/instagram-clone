@@ -35,11 +35,7 @@ const Profile = () => {
     const docRef = db.collection("users").doc(uID);
     docRef.get().then((doc) => {
       if (doc.exists) {
-        const {
-          displayName: name,
-          photoURL,
-          username,
-        } = doc.data().personalInfo;
+        const { name, photoURL, username } = doc.data().personalInfo;
         setUserInfo({
           name,
           photoURL,
@@ -52,7 +48,10 @@ const Profile = () => {
 
     if (uid !== uID) {
       setIsProtected(true);
+    } else {
+      setIsProtected(false);
     }
+
     if (isUserValid) {
       setLoading(false);
     } else {

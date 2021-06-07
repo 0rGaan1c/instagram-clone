@@ -40,7 +40,8 @@ const ProfileSetup = () => {
     });
   }, [isUser, uid]);
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     const username = usernameRef.current.value.toLowerCase();
 
     if (username === "") {
@@ -71,7 +72,7 @@ const ProfileSetup = () => {
         console.log("add user to database");
         docRef.set({
           personalInfo: {
-            displayName,
+            name: displayName,
             photoURL,
             email,
             username,

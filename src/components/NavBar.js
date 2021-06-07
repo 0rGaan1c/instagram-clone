@@ -39,7 +39,6 @@ const NavBar = () => {
         <Link to="/">
           <FaHome className="text-2xl cursor-pointer" />
         </Link>
-        {/* <h1 className="font-bold tracking-wide">Instagram</h1> */}
         <FaSearch />
         <div className="w-1/12 cursor-pointer">
           <Link to={`/${userInfo.username}`}>
