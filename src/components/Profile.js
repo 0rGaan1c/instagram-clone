@@ -3,6 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import firebase from "../services/firebase-config";
 import { useUser } from "../contexts/UserProvider";
 import NavBar from "./NavBar";
+import UserProfile from "./UserProfile";
+import ProtectedProfile from "./ProtectedProfile";
 
 const Profile = () => {
   const {
@@ -31,7 +33,11 @@ const Profile = () => {
     const docRef = db.collection("users").doc(uID);
     docRef.get().then((doc) => {
       if (doc.exists) {
-        const { name, photoURL, username } = doc.data().personalInfo;
+        const {
+          displayName: name,
+          photoURL,
+          username,
+        } = doc.data().personalInfo;
         setUserInfo({
           name,
           photoURL,
@@ -55,7 +61,7 @@ const Profile = () => {
   }, [uID, uid, username, isUserValid]);
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return <h1 className="text-center mt-8">Loading...</h1>;
   }
 
   return (
@@ -63,11 +69,12 @@ const Profile = () => {
       {isUserValid ? (
         <>
           <div>
-            <img src={userInfo.photoURL} alt="" />
             {isProtected ? (
-              <div> This account is protected </div>
+              <ProtectedProfile userInfo={userInfo} />
             ) : (
-              <div> This is your own account </div>
+              <>
+                <UserProfile userInfo={userInfo} />
+              </>
             )}
           </div>
           <NavBar />

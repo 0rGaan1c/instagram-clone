@@ -14,18 +14,23 @@ const NavBar = () => {
     const db = firebase.firestore();
     const docRef = db.collection("users").doc(uid);
 
-    docRef.get().then((doc) => {
-      if (doc.exists) {
-        const { name, photoURL, username } = doc.data().personalInfo;
-        setUserInfo({
-          name,
-          photoURL,
-          username,
-        });
-      } else {
-        console.log("should not happen");
-      }
-    });
+    docRef
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          const { name, photoURL, username } = doc.data().personalInfo;
+          setUserInfo({
+            name,
+            photoURL,
+            username,
+          });
+        } else {
+          console.log("should not happen");
+        }
+      })
+      .catch((error) => {
+        console.log("Error: ", error);
+      });
   }, [uid]);
 
   return (
