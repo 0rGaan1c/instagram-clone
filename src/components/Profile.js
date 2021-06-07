@@ -10,6 +10,8 @@ const Profile = () => {
   const {
     currentUser: { uid },
   } = useUser();
+  // uid == uid of current logged in user
+  // uID == uid of the searched user i.e., user search by the currently logged in user
   const [userInfo, setUserInfo] = useState({});
   const [isUserValid, setIsUserValid] = useState(false);
   const [loading, setLoading] = useState(true);
