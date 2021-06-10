@@ -25,7 +25,7 @@ const Profile = () => {
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          if (doc.data().personalInfo.username === username) {
+          if (doc.data().username === username) {
             setIsUserValid(true);
             setUID(doc.id);
           }
@@ -35,7 +35,7 @@ const Profile = () => {
     const docRef = db.collection("users").doc(uID);
     docRef.get().then((doc) => {
       if (doc.exists) {
-        const { name, photoURL, username } = doc.data().personalInfo;
+        const { name, photoURL, username } = doc.data();
         setUserInfo({
           name,
           photoURL,
@@ -57,7 +57,7 @@ const Profile = () => {
     } else {
       setTimeout(() => {
         setLoading(false);
-      }, 1000);
+      }, 1500);
     }
   }, [uID, uid, username, isUserValid]);
 

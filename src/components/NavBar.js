@@ -18,7 +18,7 @@ const NavBar = () => {
       .get()
       .then((doc) => {
         if (doc.exists) {
-          const { name, photoURL, username } = doc.data().personalInfo;
+          const { name, photoURL, username } = doc.data();
           setUserInfo({
             name,
             photoURL,

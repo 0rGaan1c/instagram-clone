@@ -1,14 +1,17 @@
 import React from "react";
 import { signOut } from "../services/auth";
 import { FaSignOutAlt } from "react-icons/fa";
-import { AiFillCamera, AiOutlineCamera } from "react-icons/ai";
+import { AiFillCamera } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import Posts from "./Posts";
 
 const UserProfile = ({ userInfo }) => {
   return (
     <>
       <nav className="bg-gray-100 flex items-center text-xl justify-between p-2">
-        <AiFillCamera />
+        <Link to={`/${userInfo.username}/upload`}>
+          <AiFillCamera />
+        </Link>
         <h1>{userInfo.username}</h1>
         <FaSignOutAlt onClick={signOut} />
       </nav>
@@ -45,16 +48,7 @@ const UserProfile = ({ userInfo }) => {
         </div>
       </div>
 
-      <div className="text-center w-5/6 mx-auto mt-10">
-        <AiOutlineCamera className="text-6xl mx-auto" />
-        <h3 className="text-4xl font-thin">Share Photos</h3>
-        <p className="mt-4">
-          When you share photos, they will appear on your profile.
-        </p>
-        <p className="text-blue-600">
-          <Link to="/upload"> Share your first photo </Link>
-        </p>
-      </div>
+      <Posts usernamePost={userInfo.username} />
     </>
   );
 };

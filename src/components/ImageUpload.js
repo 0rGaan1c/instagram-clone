@@ -1,7 +1,134 @@
-import React from "react";
+import React, { useState } from "react";
+import { useParams } from "react-router";
+import firebase from "../services/firebase-config";
+import TopBar from "./TopBar";
+import { useHistory } from "react-router-dom";
 
 const ImageUpload = () => {
-  return <>Image upload here</>;
+  const [image, setImage] = useState(null);
+  const [fileUrl, setFileUrl] = useState(null);
+  const [caption, setCaption] = useState("");
+  const [progress, setProgress] = useState(0);
+  const [error, setError] = useState(false);
+  const { username } = useParams();
+  const history = useHistory();
+
+  const handleChange = (e) => {
+    if (e.target.files[0]) {
+      setImage(e.target.files[0]);
+      setFileUrl(URL.createObjectURL(e.target.files[0]));
+    }
+  };
+
+  const uploadImage = (e) => {
+    e.preventDefault();
+
+    const storage = firebase.storage();
+    const uploadTask = storage.ref(`images/${image.name}`).put(image);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setProgress(progress);
+      },
+      (error) => {
+        console.error("Error", error);
+      },
+      () => {
+        storage
+          .ref("images")
+          .child(image.name)
+          .getDownloadURL()
+          .then((url) => {
+            const db = firebase.firestore();
+            db.collection("posts").add({
+              timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+              username,
+              likes: 0,
+              comments: [],
+              url,
+              caption,
+            });
+            console.log("uploaded");
+
+            setCaption("");
+            setImage(null);
+            setFileUrl(null);
+
+            history.push(`/${username}`);
+          });
+      }
+    );
+  };
+
+  return (
+    <>
+      <TopBar show={"Upload"} />
+      {fileUrl ? (
+        <div>
+          <img src={fileUrl} alt="" />
+          <form>
+            <input
+              type="text"
+              placeholder="Enter a caption..."
+              className="mt-4"
+              onChange={(e) => setCaption(e.target.value)}
+              className="mt-4 w-full focus:outline-none h-8"
+            />
+            <div class="relative pt-1">
+              <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-pink-200">
+                <div
+                  style={{ width: `${progress}%` }}
+                  class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-pink-500"
+                ></div>
+              </div>
+            </div>
+            <div className="text-center mt-4">
+              <button
+                className="bg-blue-500 mt-2 p-2 mr-2 rounded-sm text-white"
+                onClick={uploadImage}
+              >
+                Upload
+              </button>
+              <button
+                className="bg-red-500 p-2 ml-2 rounded-sm text-white"
+                onClick={() => setFileUrl(null)}
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      ) : (
+        <div className="w-3/4 mx-auto mt-10">
+          {error && (
+            <div className="text-sm text-gray-500 text-center mb-2">
+              Please select an image!
+            </div>
+          )}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (!image) {
+                setError(true);
+                setTimeout(() => {
+                  setError(false);
+                }, 2000);
+              }
+            }}
+          >
+            <input type="file" onChange={handleChange} />
+            <button className="bg-blue-500 block mt-4 px-4 py-2 mx-auto rounded-sm text-white">
+              Next
+            </button>
+          </form>
+        </div>
+      )}
+    </>
+  );
 };
 
 export default ImageUpload;

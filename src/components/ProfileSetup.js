@@ -23,7 +23,7 @@ const ProfileSetup = () => {
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           setUsernames((prevState) => {
-            return [...prevState, doc.data().personalInfo.username];
+            return [...prevState, doc.data().username];
           });
         });
       });
@@ -71,12 +71,10 @@ const ProfileSetup = () => {
       } else {
         console.log("add user to database");
         docRef.set({
-          personalInfo: {
-            name: displayName,
-            photoURL,
-            email,
-            username,
-          },
+          name: displayName,
+          photoURL,
+          email,
+          username,
         });
       }
 
@@ -107,12 +105,12 @@ const ProfileSetup = () => {
                 ref={usernameRef}
               />
             </label>
-            <div
+            <button
               className="w-1/4 text-center mt-4 py-1 bg-blue-500 text-white rounded-sm mx-auto hover:bg-blue-600 cursor-pointer"
               onClick={handleSubmit}
             >
               Next
-            </div>
+            </button>
           </form>
         </div>
       )}

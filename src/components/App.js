@@ -14,7 +14,7 @@ const App = () => {
         <Router>
           <Switch>
             <Route exact path="/" component={Signin} />
-            <PrivateRoute path="/upload" component={ImageUpload} />
+            <PrivateRoute path="/:username/upload" component={ImageUpload} />
             <PrivateRoute exact path="/:username" component={Profile} />
             <PrivateRoute path="/:username/edit" component={EditProfile} />
           </Switch>
