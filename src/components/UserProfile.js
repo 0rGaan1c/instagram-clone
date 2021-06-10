@@ -1,13 +1,14 @@
 import React from "react";
 import { signOut } from "../services/auth";
 import { FaSignOutAlt } from "react-icons/fa";
-import { IoSettingsSharp } from "react-icons/io5";
+import { AiFillCamera, AiOutlineCamera } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const UserProfile = ({ userInfo }) => {
   return (
     <>
       <nav className="bg-gray-100 flex items-center text-xl justify-between p-2">
-        <IoSettingsSharp />
+        <AiFillCamera />
         <h1>{userInfo.username}</h1>
         <FaSignOutAlt onClick={signOut} />
       </nav>
@@ -18,7 +19,10 @@ const UserProfile = ({ userInfo }) => {
         <div className="w-9/12 ml-2">
           <h2 className="text-2xl text-center mb-2">{userInfo.username}</h2>
           <div className="w-11/12 mx-auto border-2 border-gray-200 rounded-sm">
-            <div className="text-center text-sm mb-1">Edit Profile</div>
+            <div className="text-center text-sm mb-1">
+              {/* <Link to="/editprofile">Edit Profile</Link> */}
+              <Link to={`/${userInfo.username}/edit`}>Edit Profile</Link>
+            </div>
           </div>
         </div>
       </div>
@@ -39,6 +43,17 @@ const UserProfile = ({ userInfo }) => {
           <div className="font-bold text-center">0</div>
           <div className="text-gray-500">following</div>
         </div>
+      </div>
+
+      <div className="text-center w-5/6 mx-auto mt-10">
+        <AiOutlineCamera className="text-6xl mx-auto" />
+        <h3 className="text-4xl font-thin">Share Photos</h3>
+        <p className="mt-4">
+          When you share photos, they will appear on your profile.
+        </p>
+        <p className="text-blue-600">
+          <Link to="/upload"> Share your first photo </Link>
+        </p>
       </div>
     </>
   );

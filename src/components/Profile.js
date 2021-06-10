@@ -12,12 +12,12 @@ const Profile = () => {
   } = useUser();
   // uid == uid of current logged in user
   // uID == uid of the searched user i.e., user search by the currently logged in user
+  const { username } = useParams();
   const [userInfo, setUserInfo] = useState({});
   const [isUserValid, setIsUserValid] = useState(false);
   const [loading, setLoading] = useState(true);
   const [uID, setUID] = useState(uid);
   const [isProtected, setIsProtected] = useState(false);
-  const { username } = useParams();
 
   useEffect(() => {
     const db = firebase.firestore();

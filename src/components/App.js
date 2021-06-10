@@ -4,6 +4,8 @@ import Signin from "./Signin";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import Profile from "./Profile";
+import EditProfile from "./EditProfile";
+import ImageUpload from "./ImageUpload";
 
 const App = () => {
   return (
@@ -12,7 +14,9 @@ const App = () => {
         <Router>
           <Switch>
             <Route exact path="/" component={Signin} />
-            <PrivateRoute path="/:username" component={Profile} />
+            <PrivateRoute path="/upload" component={ImageUpload} />
+            <PrivateRoute exact path="/:username" component={Profile} />
+            <PrivateRoute path="/:username/edit" component={EditProfile} />
           </Switch>
         </Router>
       </UserProvider>
