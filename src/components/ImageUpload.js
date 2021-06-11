@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import firebase from "../services/firebase-config";
 import TopBar from "./TopBar";
 import { useHistory } from "react-router-dom";
+import { useUser } from "../contexts/UserProvider";
 
 const ImageUpload = () => {
   const [image, setImage] = useState(null);
@@ -11,6 +12,9 @@ const ImageUpload = () => {
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState(false);
   const { username } = useParams();
+  const {
+    currentUser: { uid },
+  } = useUser();
   const history = useHistory();
 
   const handleChange = (e) => {
@@ -44,11 +48,9 @@ const ImageUpload = () => {
           .getDownloadURL()
           .then((url) => {
             const db = firebase.firestore();
-            db.collection("posts").add({
+            db.collection("users").doc(uid).collection("posts").add({
               timestamp: firebase.firestore.FieldValue.serverTimestamp(),
               username,
-              likes: 0,
-              comments: [],
               url,
               caption,
             });

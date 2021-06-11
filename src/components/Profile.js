@@ -16,7 +16,7 @@ const Profile = () => {
   const [userInfo, setUserInfo] = useState({});
   const [isUserValid, setIsUserValid] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [uID, setUID] = useState(uid);
+  const [UID, setUID] = useState(uid);
   const [isProtected, setIsProtected] = useState(false);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const Profile = () => {
         });
       });
 
-    const docRef = db.collection("users").doc(uID);
+    const docRef = db.collection("users").doc(UID);
     docRef.get().then((doc) => {
       if (doc.exists) {
         const { name, photoURL, username } = doc.data();
@@ -46,7 +46,7 @@ const Profile = () => {
       }
     });
 
-    if (uid !== uID) {
+    if (uid !== UID) {
       setIsProtected(true);
     } else {
       setIsProtected(false);
@@ -59,7 +59,7 @@ const Profile = () => {
         setLoading(false);
       }, 1500);
     }
-  }, [uID, uid, username, isUserValid]);
+  }, [UID, uid, username, isUserValid]);
 
   if (loading) {
     return <h1 className="text-center mt-8">Loading...</h1>;
@@ -69,15 +69,13 @@ const Profile = () => {
     <>
       {isUserValid ? (
         <>
-          <div>
-            {isProtected ? (
-              <ProtectedProfile userInfo={userInfo} />
-            ) : (
-              <>
-                <UserProfile userInfo={userInfo} />
-              </>
-            )}
-          </div>
+          {isProtected ? (
+            <ProtectedProfile userInfo={userInfo} />
+          ) : (
+            <>
+              <UserProfile userInfo={userInfo} />
+            </>
+          )}
           <NavBar />
         </>
       ) : (
