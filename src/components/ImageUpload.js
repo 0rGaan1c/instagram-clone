@@ -11,6 +11,7 @@ const ImageUpload = () => {
   const [caption, setCaption] = useState("");
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const { username } = useParams();
   const {
     currentUser: { uid },
@@ -27,6 +28,7 @@ const ImageUpload = () => {
   const uploadImage = (e) => {
     e.preventDefault();
 
+    setUploading(true);
     const storage = firebase.storage();
     const uploadTask = storage.ref(`images/${image.name}`).put(image);
 
@@ -59,7 +61,7 @@ const ImageUpload = () => {
             setCaption("");
             setImage(null);
             setFileUrl(null);
-
+            setUploading(false);
             history.push(`/${username}`);
           });
       }
@@ -76,28 +78,30 @@ const ImageUpload = () => {
             <input
               type="text"
               placeholder="Enter a caption..."
-              className="mt-4"
               onChange={(e) => setCaption(e.target.value)}
               className="mt-4 w-full focus:outline-none h-8"
             />
-            <div class="relative pt-1">
-              <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-pink-200">
+            <div className="relative pt-1">
+              <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-pink-200">
                 <div
                   style={{ width: `${progress}%` }}
-                  class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-pink-500"
+                  className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-pink-500"
                 ></div>
               </div>
             </div>
+
             <div className="text-center mt-4">
               <button
                 className="bg-blue-500 mt-2 p-2 mr-2 rounded-sm text-white"
                 onClick={uploadImage}
+                disabled={uploading}
               >
                 Upload
               </button>
               <button
                 className="bg-red-500 p-2 ml-2 rounded-sm text-white"
                 onClick={() => setFileUrl(null)}
+                disabled={uploading}
               >
                 Cancel
               </button>

@@ -24,7 +24,6 @@ const Posts = ({ username }) => {
       });
     });
 
-    console.log(UID, uid);
     if (UID !== null && UID !== uid) {
       setIsProtected(true);
     }
@@ -33,8 +32,13 @@ const Posts = ({ username }) => {
       db.collection("users")
         .doc(UID)
         .collection("posts")
+        .orderBy("timestamp", "desc")
         .onSnapshot((snapshot) => {
-          setPosts(snapshot.docs.map((doc) => doc.data()));
+          setPosts(
+            snapshot.docs.map((doc) => {
+              return doc.data();
+            })
+          );
         });
     }
   }, [UID, uid, username]);
