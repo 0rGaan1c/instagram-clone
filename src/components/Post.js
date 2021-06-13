@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import TopBar from "./TopBar";
 import firebase from "../services/firebase-config";
-import { BsHeart, BsHeartFill } from "react-icons/bs";
+import { useUser } from "../contexts/UserProvider";
 
 const Post = () => {
   const { id, username } = useParams();
+  const {
+    currentUser: { uid },
+  } = useUser();
   const [post, setPost] = useState({});
   const [userInfo, setUserInfo] = useState({});
-  const [isLiked, setIsLiked] = useState(false);
   const [UID, setUID] = useState(null);
 
   useEffect(() => {
@@ -32,11 +34,7 @@ const Post = () => {
           setPost(doc.data());
         });
     }
-  }, [UID, username, id]);
-
-  const handleLikeClick = () => {
-    setIsLiked(!isLiked);
-  };
+  }, [UID, username, id, uid]);
 
   return (
     <>
@@ -56,14 +54,6 @@ const Post = () => {
       <div>
         <img src={post.url} alt={post.caption} />
       </div>
-      <div className="flex text-xl m-4">
-        {isLiked ? (
-          <BsHeartFill onClick={handleLikeClick} />
-        ) : (
-          <BsHeart onClick={handleLikeClick} />
-        )}
-      </div>
-      <p className="-mt-2 ml-4">Be the first to like this</p>
       {post.caption !== "" && (
         <p className="mt-2 ml-4">
           <span className="font-bold mr-2">{post.username}</span>

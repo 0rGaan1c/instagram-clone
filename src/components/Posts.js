@@ -24,8 +24,10 @@ const Posts = ({ username }) => {
       });
     });
 
-    if (UID !== null && UID !== uid) {
+    if (uid !== UID) {
       setIsProtected(true);
+    } else {
+      setIsProtected(false);
     }
 
     if (UID) {

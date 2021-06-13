@@ -26,7 +26,7 @@ const App = () => {
               path="/:username/edit"
               component={EditProfile}
             />
-            <Route path="/:username/post/:id" component={Post} />
+            <PrivateRoute path="/:username/post/:id" component={Post} />
           </Switch>
         </Router>
       </UserProvider>
