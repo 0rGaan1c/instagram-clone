@@ -36,7 +36,9 @@ const Posts = ({ username }) => {
         .onSnapshot((snapshot) => {
           setPosts(
             snapshot.docs.map((doc) => {
-              return doc.data();
+              const data = doc.data();
+              data["id"] = doc.id;
+              return data;
             })
           );
         });
@@ -49,9 +51,11 @@ const Posts = ({ username }) => {
       {posts.length ? (
         <div>
           <div className="flex flex-wrap border-1 border-black">
-            {posts.map(({ caption, url }, idx) => {
+            {posts.map(({ caption, url, id }, idx) => {
               return (
-                <img src={url} alt={caption} key={idx} className="w-1/3 h-28" />
+                <Link to={`/${username}/post/${id}`} key={idx} className="">
+                  <img src={url} alt={caption} className="w-1/3 h-28" />
+                </Link>
               );
             })}
           </div>
