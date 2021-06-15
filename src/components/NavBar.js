@@ -39,7 +39,9 @@ const NavBar = () => {
         <Link to="/">
           <FaHome className="text-2xl cursor-pointer" />
         </Link>
-        <FaSearch />
+        <Link to={`/${userInfo.username}/discover`}>
+          <FaSearch />
+        </Link>
         <div className="w-1/12 cursor-pointer">
           <Link to={`/${userInfo.username}`}>
             <img

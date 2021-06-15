@@ -7,6 +7,7 @@ import Profile from "./Profile";
 import EditProfile from "./EditProfile";
 import ImageUpload from "./ImageUpload";
 import Post from "./Post";
+import DiscoverPeople from "./DiscoverPeople";
 
 const App = () => {
   return (
@@ -15,6 +16,10 @@ const App = () => {
         <Router>
           <Switch>
             <Route exact path="/" component={Signin} />
+            <PrivateRoute
+              path="/:username/discover"
+              component={DiscoverPeople}
+            />
             <PrivateRoute
               exact
               path="/:username/upload"

@@ -8,12 +8,9 @@ const TopBar = ({ show }) => {
   return (
     <>
       <nav className="bg-gray-100 text-xl p-2">
-        <div
-          className="flex items-center justify-between"
-          style={{ width: "55%" }}
-        >
+        <div className="flex items-center" style={{ width: "65%" }}>
           <HiChevronLeft onClick={() => history.goBack()} />
-          <h1>{show}</h1>
+          <h1 className="ml-auto">{show}</h1>
         </div>
       </nav>
     </>
