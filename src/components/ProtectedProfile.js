@@ -1,6 +1,6 @@
 import React from "react";
+import Follow from "./Follow";
 import Posts from "./Posts";
-
 import TopBar from "./TopBar";
 
 const ProtectedProfile = ({ userInfo }) => {
@@ -13,11 +13,12 @@ const ProtectedProfile = ({ userInfo }) => {
         </div>
         <div className="w-9/12 ml-2">
           <h2 className="text-2xl text-center mb-2">{userInfo.username}</h2>
-          <div className="w-11/12 mx-auto bg-blue-400 rounded-sm">
-            <div className="text-center text-sm py-1 text-white font-bold">
+          {/* <div className="w-11/12 mx-auto bg-blue-400 rounded-sm"> */}
+          {/* <div className="text-center text-sm py-1 text-white font-bold">
               Follow
-            </div>
-          </div>
+            </div> */}
+          <Follow username={userInfo.username} />
+          {/* </div> */}
         </div>
       </div>
       <h3 className="w-11/12 ml-auto mt-4 font-sm font-bold">

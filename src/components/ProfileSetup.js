@@ -75,6 +75,8 @@ const ProfileSetup = () => {
           photoURL,
           email,
           username,
+          followers: [],
+          following: [],
         });
       }
 
