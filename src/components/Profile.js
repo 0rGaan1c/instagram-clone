@@ -16,7 +16,7 @@ const Profile = () => {
   const [userInfo, setUserInfo] = useState({});
   const [isUserValid, setIsUserValid] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [UID, setUID] = useState(uid);
+  const [UID, setUID] = useState(null);
   const [isProtected, setIsProtected] = useState(false);
 
   useEffect(() => {
@@ -31,20 +31,25 @@ const Profile = () => {
           }
         });
       });
+  }, [username]);
 
-    const docRef = db.collection("users").doc(UID);
-    docRef.get().then((doc) => {
-      if (doc.exists) {
-        const { name, photoURL, username } = doc.data();
-        setUserInfo({
-          name,
-          photoURL,
-          username,
-        });
-      } else {
-        console.log("should not happen");
-      }
-    });
+  useEffect(() => {
+    if (UID) {
+      const db = firebase.firestore();
+      const docRef = db.collection("users").doc(UID);
+      docRef.get().then((doc) => {
+        if (doc.exists) {
+          const { name, photoURL, username } = doc.data();
+          setUserInfo({
+            name,
+            photoURL,
+            username,
+          });
+        } else {
+          console.log("should not happen");
+        }
+      });
+    }
 
     if (uid !== UID) {
       setIsProtected(true);

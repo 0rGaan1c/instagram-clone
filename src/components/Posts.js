@@ -49,7 +49,7 @@ const Posts = ({ username }) => {
 
   return (
     <>
-      <PostFollowerFollowing numberOfPosts={posts.length} />
+      <PostFollowerFollowing username={username} numberOfPosts={posts.length} />
       {posts.length ? (
         <div>
           <div className="flex flex-wrap border-1 border-black">

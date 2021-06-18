@@ -8,6 +8,8 @@ import EditProfile from "./EditProfile";
 import ImageUpload from "./ImageUpload";
 import Post from "./Post";
 import DiscoverPeople from "./DiscoverPeople";
+import FollowersList from "./FollowersList";
+import FollowingList from "./FollowingList";
 
 const App = () => {
   return (
@@ -24,6 +26,14 @@ const App = () => {
               exact
               path="/:username/upload"
               component={ImageUpload}
+            />
+            <PrivateRoute
+              path="/:username/followers"
+              component={FollowersList}
+            />
+            <PrivateRoute
+              path="/:username/following"
+              component={FollowingList}
             />
             <PrivateRoute exact path="/:username" component={Profile} />
             <PrivateRoute

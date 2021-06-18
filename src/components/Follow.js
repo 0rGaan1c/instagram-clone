@@ -9,11 +9,19 @@ const Follow = ({ username }) => {
   } = useUser();
   const [following, setFollowing] = useState([]);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [loggedInUsername, setLoggedInUsername] = useState(null);
 
   useEffect(() => {
     const db = firebase.firestore();
 
     const fetchData = async () => {
+      db.collection("users")
+        .doc(uid)
+        .get()
+        .then((doc) => {
+          setLoggedInUsername(doc.data().username);
+        });
+
       db.collection("users")
         .doc(uid)
         .collection("following")
@@ -35,6 +43,18 @@ const Follow = ({ username }) => {
 
   const handleFollow = () => {
     const db = firebase.firestore();
+    db.collection("users")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.docs.forEach((doc) => {
+          if (doc.data().username === username) {
+            db.collection("users")
+              .doc(doc.id)
+              .collection("followers")
+              .add({ username: loggedInUsername });
+          }
+        });
+      });
     db.collection("users").doc(uid).collection("following").add({
       username,
     });
@@ -48,7 +68,7 @@ const Follow = ({ username }) => {
           username={username}
           uid={uid}
           setIsFollowing={setIsFollowing}
-          isFollowing={isFollowing}
+          loggedInUsername={loggedInUsername}
         />
       ) : (
         <div className="w-11/12 mx-auto bg-blue-400 rounded-sm">
