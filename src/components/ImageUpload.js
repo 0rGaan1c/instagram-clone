@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import firebase from "../services/firebase-config";
 import TopBar from "./TopBar";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 import { useUser } from "../contexts/UserProvider";
 
 const ImageUpload = () => {
@@ -13,10 +13,29 @@ const ImageUpload = () => {
   const [error, setError] = useState(false);
   const [uploading, setUploading] = useState(false);
   const { username } = useParams();
+  const [loggedInUsername, setLoggedInUsername] = useState(null);
+  const [redirect, setRedirect] = useState(null);
   const {
     currentUser: { uid },
   } = useUser();
   const history = useHistory();
+
+  useEffect(() => {
+    const db = firebase.firestore();
+
+    db.collection("users")
+      .doc(uid)
+      .get()
+      .then((doc) => {
+        setLoggedInUsername(doc.data().username);
+      });
+  }, [uid]);
+
+  useEffect(() => {
+    if (loggedInUsername && username !== loggedInUsername) {
+      setRedirect(`/${username}`);
+    }
+  }, [loggedInUsername, username]);
 
   const handleChange = (e) => {
     if (e.target.files[0]) {
@@ -68,6 +87,10 @@ const ImageUpload = () => {
       }
     );
   };
+
+  if (redirect) {
+    return <Redirect to={redirect} />;
+  }
 
   return (
     <>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import firebase from "../services/firebase-config";
 import { useUser } from "../contexts/UserProvider";
+import Unfollow from "./Unfollow";
 
 const Follow = ({ username }) => {
   const {
@@ -8,7 +9,6 @@ const Follow = ({ username }) => {
   } = useUser();
   const [following, setFollowing] = useState([]);
   const [isFollowing, setIsFollowing] = useState(false);
-  const [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {
     const db = firebase.firestore();
@@ -16,10 +16,10 @@ const Follow = ({ username }) => {
     const fetchData = async () => {
       db.collection("users")
         .doc(uid)
+        .collection("following")
         .get()
-        .then((doc) => {
-          setFollowing(doc.data().following);
-          setUserInfo(doc.data());
+        .then((querySnapshot) => {
+          setFollowing(querySnapshot.docs.map((doc) => doc.data().username));
         });
     };
     fetchData();
@@ -31,23 +31,25 @@ const Follow = ({ username }) => {
     } else {
       setIsFollowing(false);
     }
-  }, [following, username, userInfo]);
+  }, [following, username]);
 
   const handleFollow = () => {
     const db = firebase.firestore();
-
-    let newfollowing = userInfo.following;
-    newfollowing.push(username);
-    setUserInfo({ ...userInfo, following: newfollowing });
-    db.collection("users").doc(uid).set({
-      userInfo,
+    db.collection("users").doc(uid).collection("following").add({
+      username,
     });
+    setIsFollowing(!isFollowing);
   };
 
   return (
     <>
       {isFollowing ? (
-        <div>Unfollow</div>
+        <Unfollow
+          username={username}
+          uid={uid}
+          setIsFollowing={setIsFollowing}
+          isFollowing={isFollowing}
+        />
       ) : (
         <div className="w-11/12 mx-auto bg-blue-400 rounded-sm">
           <div

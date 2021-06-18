@@ -1,28 +1,57 @@
 import React, { useEffect, useState } from "react";
 import TopBar from "./TopBar";
 import firebase from "../services/firebase-config";
-import { Link, useParams } from "react-router-dom";
+import { Link, Redirect, useParams } from "react-router-dom";
+import { useUser } from "../contexts/UserProvider";
+import Follow from "./Follow";
 
 const DiscoverPeople = () => {
   const [users, setUsers] = useState([]);
   const { username } = useParams();
+  const [loggedInUsername, setLoggedInUsername] = useState(null);
+  const [redirect, setRedirect] = useState(null);
+
+  const {
+    currentUser: { uid },
+  } = useUser();
 
   useEffect(() => {
-    setUsers([]);
     const db = firebase.firestore();
+
     db.collection("users")
+      .doc(uid)
       .get()
-      .then((querySnapshot) => {
-        querySnapshot.docs.forEach((doc) => {
-          if (doc.data().username !== username) {
-            setUsers((prevState) => {
-              return [...prevState, { ...doc.data() }];
-            });
-          }
-        });
+      .then((doc) => {
+        setLoggedInUsername(doc.data().username);
       });
-  }, [username]);
-  console.log(users);
+  }, [uid]);
+
+  useEffect(() => {
+    if (loggedInUsername && username !== loggedInUsername) {
+      setRedirect(`/${username}`);
+      return;
+    }
+
+    if (username === loggedInUsername) {
+      setUsers([]);
+      const db = firebase.firestore();
+      db.collection("users")
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.docs.forEach((doc) => {
+            if (doc.data().username !== username) {
+              setUsers((prevState) => {
+                return [...prevState, { ...doc.data() }];
+              });
+            }
+          });
+        });
+    }
+  }, [username, loggedInUsername]);
+
+  if (redirect) {
+    return <Redirect to={redirect} />;
+  }
 
   return (
     <>
@@ -47,7 +76,7 @@ const DiscoverPeople = () => {
                 </div>
               </Link>
               <button className="w-1/5 bg-blue-500 font-bold text-white rounded-sm">
-                Follow
+                <Follow username={username} />
               </button>
             </div>
           );

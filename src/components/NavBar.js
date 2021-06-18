@@ -11,26 +11,30 @@ const NavBar = () => {
   const [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {
-    const db = firebase.firestore();
-    const docRef = db.collection("users").doc(uid);
+    const fetchData = async () => {
+      const db = firebase.firestore();
+      const docRef = db.collection("users").doc(uid);
 
-    docRef
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          const { name, photoURL, username } = doc.data();
-          setUserInfo({
-            name,
-            photoURL,
-            username,
-          });
-        } else {
-          console.log("should not happen");
-        }
-      })
-      .catch((error) => {
-        console.log("Error: ", error);
-      });
+      docRef
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            const { name, photoURL, username } = doc.data();
+            setUserInfo({
+              name,
+              photoURL,
+              username,
+            });
+          } else {
+            console.log("should not happen");
+          }
+        })
+        .catch((error) => {
+          console.log("Error: ", error);
+        });
+    };
+
+    fetchData();
   }, [uid]);
 
   return (
