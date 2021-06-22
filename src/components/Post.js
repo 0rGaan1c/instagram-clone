@@ -31,7 +31,9 @@ const Post = () => {
         .doc(id)
         .get()
         .then((doc) => {
-          setPost(doc.data());
+          let timestamp = new Date(doc.data().timestamp.seconds * 1000);
+          timestamp = timestamp.toDateString();
+          setPost({ ...doc.data(), timestamp });
         });
     }
   }, [UID, username, id, uid]);
@@ -60,6 +62,7 @@ const Post = () => {
           {post.caption}
         </p>
       )}
+      <p className="text-xs text-gray-500 mt-4 ml-4">{post.timestamp}</p>
     </>
   );
 };
