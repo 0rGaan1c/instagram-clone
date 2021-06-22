@@ -12,6 +12,7 @@ const Feed = () => {
   } = useUser();
   const [following, setFollowing] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [sortedPosts, setSortedPosts] = useState([]);
 
   useEffect(() => {
     const fetchData = () => {
@@ -62,11 +63,16 @@ const Feed = () => {
 
   useEffect(() => {
     if (posts.length) {
-      posts.sort(function (x, y) {
-        return y.timestamp.seconds - x.timestamp.seconds;
-      });
+      setSortedPosts(
+        posts.sort(function (x, y) {
+          return y.timestamp.seconds - x.timestamp.seconds;
+        })
+      );
     }
   }, [posts]);
+
+  // console.log(posts);
+  // console.log(sortedPosts);
 
   return (
     <>
@@ -74,37 +80,39 @@ const Feed = () => {
         <h1 className="font-bold tracking-wide">Instagram</h1>
         <FaSignOutAlt onClick={signOut} />
       </nav>
-      {posts.length ? (
-        posts.map(({ username, caption, timestamp, url, photoURL }, idx) => {
-          return (
-            <div key={idx} className="mb-8">
-              <div className="bg-grey-300 flex items-center text-xl p-3">
-                <div className="w-1/12 cursor-pointer">
-                  <Link to={`/${username}`}>
-                    <img
-                      src={photoURL}
-                      alt=""
-                      className="rounded-full cursor-pointer"
-                    />
-                  </Link>
+      {sortedPosts.length ? (
+        sortedPosts.map(
+          ({ username, caption, timestamp, url, photoURL }, idx) => {
+            return (
+              <div key={idx} className="mb-8">
+                <div className="bg-grey-300 flex items-center text-xl p-3">
+                  <div className="w-1/12 cursor-pointer">
+                    <Link to={`/${username}`}>
+                      <img
+                        src={photoURL}
+                        alt=""
+                        className="rounded-full cursor-pointer"
+                      />
+                    </Link>
+                  </div>
+                  <div className="text-sm ml-4 font-bold">{username}</div>
                 </div>
-                <div className="text-sm ml-4 font-bold">{username}</div>
-              </div>
-              <div>
-                <img src={url} alt={caption} />
-              </div>
-              {caption !== "" && (
-                <p className="mt-2 ml-4">
-                  <span className="font-bold mr-2">{username}</span>
-                  {caption}
+                <div>
+                  <img src={url} alt={caption} />
+                </div>
+                {caption !== "" && (
+                  <p className="mt-2 ml-4">
+                    <span className="font-bold mr-2">{username}</span>
+                    {caption}
+                  </p>
+                )}
+                <p className="text-xs text-gray-500 mt-4 ml-4">
+                  {new Date(timestamp.seconds * 1000).toDateString()}
                 </p>
-              )}
-              <p className="text-xs text-gray-500 mt-4 ml-4">
-                {new Date(timestamp.seconds * 1000).toDateString()}
-              </p>
-            </div>
-          );
-        })
+              </div>
+            );
+          }
+        )
       ) : (
         <div className="text-center mt-8 w-4/5 mx-auto">
           <h2 className="text-2xl">Welcome to Instagram</h2>
