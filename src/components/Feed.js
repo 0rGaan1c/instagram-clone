@@ -13,6 +13,7 @@ const Feed = () => {
   const [following, setFollowing] = useState([]);
   const [posts, setPosts] = useState([]);
   const [sortedPosts, setSortedPosts] = useState([]);
+  const [last, setLast] = useState(0);
 
   useEffect(() => {
     const fetchData = () => {
@@ -30,8 +31,8 @@ const Feed = () => {
   }, [uid]);
 
   useEffect(() => {
-    setPosts([]);
     if (following.length) {
+      setPosts([]);
       const db = firebase.firestore();
 
       db.collection("users")
@@ -51,7 +52,10 @@ const Feed = () => {
                     .then((querySnapshot) => {
                       querySnapshot.docs.forEach((doc) => {
                         setPosts((prevState) => {
-                          return [...prevState, { ...doc.data(), photoURL }];
+                          return [
+                            ...prevState,
+                            { ...doc.data(), photoURL, id: doc.id },
+                          ];
                         });
                       });
                     });
@@ -68,6 +72,7 @@ const Feed = () => {
           return y.timestamp.seconds - x.timestamp.seconds;
         })
       );
+      setLast(posts.length);
     }
   }, [posts]);
 
@@ -82,7 +87,7 @@ const Feed = () => {
       </nav>
       {sortedPosts.length ? (
         sortedPosts.map(
-          ({ username, caption, timestamp, url, photoURL }, idx) => {
+          ({ username, caption, timestamp, url, photoURL, id }, idx) => {
             return (
               <div key={idx} className="mb-8">
                 <div className="bg-grey-300 flex items-center text-xl p-3">
@@ -97,18 +102,26 @@ const Feed = () => {
                   </div>
                   <div className="text-sm ml-4 font-bold">{username}</div>
                 </div>
-                <div>
-                  <img src={url} alt={caption} />
-                </div>
+                <Link to={`/${username}/post/${id}`}>
+                  <div>
+                    <img src={url} alt={caption} />
+                  </div>
+                </Link>
                 {caption !== "" && (
                   <p className="mt-2 ml-4">
                     <span className="font-bold mr-2">{username}</span>
                     {caption}
                   </p>
                 )}
-                <p className="text-xs text-gray-500 mt-4 ml-4">
-                  {new Date(timestamp.seconds * 1000).toDateString()}
-                </p>
+                {last - 1 === idx ? (
+                  <p className="text-xs text-gray-500 mt-4 ml-4 mb-20">
+                    {new Date(timestamp.seconds * 1000).toDateString()}
+                  </p>
+                ) : (
+                  <p className="text-xs text-gray-500 mt-4 ml-4">
+                    {new Date(timestamp.seconds * 1000).toDateString()}
+                  </p>
+                )}
               </div>
             );
           }
