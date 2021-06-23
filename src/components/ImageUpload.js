@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import firebase from "../services/firebase-config";
 import TopBar from "./TopBar";
-import { useHistory, Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { useUser } from "../contexts/UserProvider";
 
 const ImageUpload = () => {

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, Redirect } from "react-router-dom";
 import TopBar from "./TopBar";
 import firebase from "../services/firebase-config";
 import { useUser } from "../contexts/UserProvider";
+import { FaTrash } from "react-icons/fa";
 
 const Post = () => {
   const { id, username } = useParams();
@@ -12,6 +13,8 @@ const Post = () => {
   const [post, setPost] = useState({});
   const [userInfo, setUserInfo] = useState({});
   const [UID, setUID] = useState(null);
+  const [isProtected, setIsProtected] = useState(true);
+  const [isDeleted, setIsDeleted] = useState(false);
 
   useEffect(() => {
     const db = firebase.firestore();
@@ -38,6 +41,35 @@ const Post = () => {
     }
   }, [UID, username, id, uid]);
 
+  useEffect(() => {
+    if (UID && uid !== UID) {
+      setIsProtected(true);
+    } else {
+      setIsProtected(false);
+    }
+  }, [uid, UID]);
+
+  const handlePostDelete = () => {
+    const db = firebase.firestore();
+
+    db.collection("users")
+      .doc(uid)
+      .collection("posts")
+      .doc(id)
+      .delete()
+      .then(() => {
+        console.log("Post Deleted");
+        setIsDeleted(true);
+      })
+      .catch((error) => {
+        console.log("Error deleting post document: ", error);
+      });
+  };
+
+  if (isDeleted) {
+    return <Redirect to={`/${username}`} />;
+  }
+
   return (
     <>
       <TopBar show={"Photo"} />
@@ -52,6 +84,9 @@ const Post = () => {
           </Link>
         </div>
         <div className="text-sm ml-4 font-bold">{userInfo.username}</div>
+        {!isProtected && (
+          <FaTrash className="ml-auto" onClick={handlePostDelete} />
+        )}
       </div>
       <div className="">
         <img src={post.url} alt={post.caption} className="block mx-auto" />

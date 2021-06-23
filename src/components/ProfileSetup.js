@@ -5,7 +5,7 @@ import Feed from "./Feed";
 
 const ProfileSetup = () => {
   const {
-    currentUser: { displayName, email, photoURL, uid },
+    currentUser: { displayName, photoURL, uid },
   } = useUser();
 
   const usernameRef = useRef(null);
@@ -73,7 +73,6 @@ const ProfileSetup = () => {
         docRef.set({
           name: displayName,
           photoURL,
-          email,
           username,
         });
       }
