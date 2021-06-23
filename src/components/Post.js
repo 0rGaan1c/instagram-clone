@@ -53,8 +53,8 @@ const Post = () => {
         </div>
         <div className="text-sm ml-4 font-bold">{userInfo.username}</div>
       </div>
-      <div>
-        <img src={post.url} alt={post.caption} />
+      <div className="">
+        <img src={post.url} alt={post.caption} className="block mx-auto" />
       </div>
       {post.caption !== "" && (
         <p className="mt-2 ml-4">

@@ -11,10 +11,11 @@ const Posts = ({ username }) => {
   } = useUser();
   const [posts, setPosts] = useState([]);
   const [UID, setUID] = useState(null);
+  const [last, setLast] = useState(0);
   const [isProtected, setIsProtected] = useState(false);
 
   useEffect(() => {
-    setPosts([]);
+    // setPosts([]);
     const db = firebase.firestore();
     db.collection("users").onSnapshot((snapshot) => {
       snapshot.docs.forEach((doc) => {
@@ -47,6 +48,12 @@ const Posts = ({ username }) => {
     }
   }, [UID, uid, username]);
 
+  useEffect(() => {
+    if (posts.length) {
+      setLast(posts.length);
+    }
+  }, [posts]);
+
   return (
     <>
       <PostFollowerFollowing username={username} numberOfPosts={posts.length} />
@@ -55,8 +62,20 @@ const Posts = ({ username }) => {
           <div className="flex flex-wrap border-1 border-black">
             {posts.map(({ caption, url, id }, idx) => {
               return (
-                <Link to={`/${username}/post/${id}`} key={idx} className="">
-                  <img src={url} alt={caption} className="w-1/3 h-28" />
+                <Link
+                  to={`/${username}/post/${id}`}
+                  key={idx}
+                  className="w-1/3"
+                >
+                  {last - 1 === idx ? (
+                    <img
+                      src={url}
+                      alt={caption}
+                      className="w-full h-28 mb-12"
+                    />
+                  ) : (
+                    <img src={url} alt={caption} className="w-full h-28" />
+                  )}
                 </Link>
               );
             })}

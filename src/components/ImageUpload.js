@@ -97,7 +97,7 @@ const ImageUpload = () => {
       <TopBar show={"Upload"} />
       {fileUrl ? (
         <div>
-          <img src={fileUrl} alt="" />
+          <img src={fileUrl} alt="" className="mx-auto" />
           <form>
             <input
               type="text"
@@ -135,7 +135,7 @@ const ImageUpload = () => {
       ) : (
         <div className="w-3/4 mx-auto mt-10">
           {error && (
-            <div className="text-sm text-gray-500 text-center mb-2">
+            <div className="text-sm text-red-500 text-center mb-4">
               Please select an image!
             </div>
           )}

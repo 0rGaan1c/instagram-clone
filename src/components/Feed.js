@@ -104,7 +104,7 @@ const Feed = () => {
                 </div>
                 <Link to={`/${username}/post/${id}`}>
                   <div>
-                    <img src={url} alt={caption} />
+                    <img src={url} alt={caption} className="mx-auto" />
                   </div>
                 </Link>
                 {caption !== "" && (
