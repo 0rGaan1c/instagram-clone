@@ -5,6 +5,7 @@ import { signOut } from "../services/auth";
 import { useUser } from "../contexts/UserProvider";
 import { Link } from "react-router-dom";
 import firebase from "../services/firebase-config";
+import Dislike from "./Dislike";
 
 const Feed = () => {
   const {
@@ -45,6 +46,7 @@ const Feed = () => {
                 .get()
                 .then((doc) => {
                   const photoURL = doc.data().photoURL;
+                  const UID = doc.id;
                   db.collection("users")
                     .doc(doc.id)
                     .collection("posts")
@@ -54,7 +56,7 @@ const Feed = () => {
                         setPosts((prevState) => {
                           return [
                             ...prevState,
-                            { ...doc.data(), photoURL, id: doc.id },
+                            { ...doc.data(), photoURL, id: doc.id, UID },
                           ];
                         });
                       });
@@ -87,7 +89,10 @@ const Feed = () => {
       </nav>
       {sortedPosts.length ? (
         sortedPosts.map(
-          ({ username, caption, timestamp, url, photoURL, id }, idx) => {
+          (
+            { username, caption, timestamp, url, photoURL, id, likes, UID },
+            idx
+          ) => {
             return (
               <div key={idx} className="mb-8">
                 <div className="bg-grey-300 flex items-center text-xl p-3">
@@ -107,6 +112,7 @@ const Feed = () => {
                     <img src={url} alt={caption} className="mx-auto" />
                   </div>
                 </Link>
+                <Dislike UID={UID} id={id} likes={likes} username={username} />
                 {caption !== "" && (
                   <p className="mt-2 ml-4">
                     <span className="font-bold mr-2">{username}</span>

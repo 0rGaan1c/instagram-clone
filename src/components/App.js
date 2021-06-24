@@ -10,6 +10,7 @@ import Post from "./Post";
 import DiscoverPeople from "./DiscoverPeople";
 import FollowersList from "./FollowersList";
 import FollowingList from "./FollowingList";
+import DislikeList from "./DislikeList";
 
 const App = () => {
   return (
@@ -28,10 +29,12 @@ const App = () => {
               component={ImageUpload}
             />
             <PrivateRoute
+              exact
               path="/:username/followers"
               component={FollowersList}
             />
             <PrivateRoute
+              exact
               path="/:username/following"
               component={FollowingList}
             />
@@ -41,7 +44,12 @@ const App = () => {
               path="/:username/edit"
               component={EditProfile}
             />
-            <PrivateRoute path="/:username/post/:id" component={Post} />
+            <PrivateRoute exact path="/:username/post/:id" component={Post} />
+            <PrivateRoute
+              exact
+              path="/:username/post/:id/dislikes"
+              component={DislikeList}
+            />
           </Switch>
         </Router>
       </UserProvider>

@@ -4,6 +4,7 @@ import TopBar from "./TopBar";
 import firebase from "../services/firebase-config";
 import { useUser } from "../contexts/UserProvider";
 import { FaTrash } from "react-icons/fa";
+import Dislike from "./Dislike";
 
 const Post = () => {
   const { id, username } = useParams();
@@ -13,8 +14,8 @@ const Post = () => {
   const [post, setPost] = useState({});
   const [userInfo, setUserInfo] = useState({});
   const [UID, setUID] = useState(null);
-  const [isProtected, setIsProtected] = useState(true);
   const [isDeleted, setIsDeleted] = useState(false);
+  const [isProtected, setIsProtected] = useState(true);
 
   useEffect(() => {
     const db = firebase.firestore();
@@ -91,6 +92,11 @@ const Post = () => {
       <div className="">
         <img src={post.url} alt={post.caption} className="block mx-auto" />
       </div>
+
+      {post.likes && (
+        <Dislike UID={UID} likes={post.likes} id={id} username={username} />
+      )}
+
       {post.caption !== "" && (
         <p className="mt-2 ml-4">
           <span className="font-bold mr-2">{post.username}</span>
