@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import firebase from "../services/firebase-config";
 import { useUser } from "../contexts/UserProvider";
+import { useParams } from "react-router-dom";
 
 const DeleteProfile = ({ uid }) => {
   const [showModal, setShowModal] = useState(false);
   const { currentUser } = useUser();
+  const { username } = useParams();
 
   const openModal = () => {
     setShowModal(true);
@@ -21,6 +23,51 @@ const DeleteProfile = ({ uid }) => {
       })
       .catch((error) => {
         console.log(error);
+      });
+
+    db.collection("users")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.docs.forEach((doc) => {
+          const userId = doc.id;
+          db.collection("users")
+            .doc(userId)
+            .collection("followers")
+            .get()
+            .then((querySnapshot) => {
+              querySnapshot.docs.forEach((doc) => {
+                if (doc.data().username === username) {
+                  db.collection("users")
+                    .doc(userId)
+                    .collection("followers")
+                    .doc(doc.id)
+                    .delete()
+                    .then(() => {
+                      console.log("deleted from followers list");
+                    });
+                }
+              });
+            });
+
+          db.collection("users")
+            .doc(userId)
+            .collection("following")
+            .get()
+            .then((querySnapshot) => {
+              querySnapshot.docs.forEach((doc) => {
+                if (doc.data().username === username) {
+                  db.collection("users")
+                    .doc(userId)
+                    .collection("following")
+                    .doc(doc.id)
+                    .delete()
+                    .then(() => {
+                      console.log("deleted from following list");
+                    });
+                }
+              });
+            });
+        });
       });
 
     db.collection("users")
