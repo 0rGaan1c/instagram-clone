@@ -9,10 +9,6 @@ const EditProfile = () => {
   const [userInfo, setUserInfo] = useState({});
   const [loggedInUsername, setLoggedInUsername] = useState(null);
   const [redirect, setRedirect] = useState(null);
-  const [ringError, setRingError] = useState("focus:ring");
-  const [usernames, setUsernames] = useState([]);
-  const [isUsernameUnique, setIsUsernameUnique] = useState(true);
-  const usernameRef = useRef(null);
   const nameRef = useRef(null);
   const { username } = useParams();
   const {
@@ -34,22 +30,6 @@ const EditProfile = () => {
     const db = firebase.firestore();
 
     db.collection("users")
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          if (doc.data().username !== username) {
-            setUsernames((prevState) => {
-              return [...prevState, doc.data().username];
-            });
-          }
-        });
-      });
-  }, [username]);
-
-  useEffect(() => {
-    const db = firebase.firestore();
-
-    db.collection("users")
       .doc(uid)
       .get()
       .then((doc) => {
@@ -66,29 +46,15 @@ const EditProfile = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    let username = usernameRef.current.value.toLowerCase();
     let name = nameRef.current.value;
-
-    if (usernames.includes(username)) {
-      setIsUsernameUnique(false);
-      setRingError("ring ring-red-500");
-      setTimeout(() => {
-        setRingError("focus:ring");
-        setIsUsernameUnique(true);
-      }, 2000);
-      return;
-    }
 
     if (name === "") {
       name = userInfo.name;
     }
-    if (username === "") {
-      username = userInfo.username;
-    }
 
     const db = firebase.firestore();
     db.collection("users").doc(uid).set({
-      username,
+      username: userInfo.username,
       name,
       photoURL: userInfo.photoURL,
     });
@@ -111,20 +77,6 @@ const EditProfile = () => {
               type="text"
               className={`shadow p-2 w-full outline-blue border-2 border-gray-300 shadow outline-none focus:outline-none mb-4 focus:ring`}
               ref={nameRef}
-            />
-          </label>
-          <label>
-            <p className="mb-2">Edit Username</p>
-            {!isUsernameUnique && (
-              <div className="text-sm text-gray-500 text-center mb-2">
-                Username already taken!
-              </div>
-            )}
-            <input
-              type="text"
-              className={`shadow p-2 w-full outline-blue border-2 border-gray-300 shadow outline-none focus:outline-none ${ringError}`}
-              placeholder="Username (case insensitive)"
-              ref={usernameRef}
             />
           </label>
           <div className="text-center">
