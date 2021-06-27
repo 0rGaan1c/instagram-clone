@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, Redirect } from "react-router-dom";
 import TopBar from "./TopBar";
+import DeleteProfile from "./DeleteProfile";
 import firebase from "../services/firebase-config";
 import { useUser } from "../contexts/UserProvider";
 
@@ -134,12 +135,7 @@ const EditProfile = () => {
               Update
             </button>
 
-            {/* <button
-              className="w-1/4 text-center ml-2 mt-4 py-1 bg-red-500 text-white rounded-sm mx-auto hover:bg-red-600 cursor-pointer"
-              onClick={() => history.goBack()}
-            >
-              Cancel
-            </button> */}
+            <DeleteProfile uid={uid} />
           </div>
         </form>
       </div>
