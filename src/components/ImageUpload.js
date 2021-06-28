@@ -75,6 +75,7 @@ const ImageUpload = () => {
               url,
               caption,
               likes: [],
+              comments: [],
             });
             console.log("uploaded");
 

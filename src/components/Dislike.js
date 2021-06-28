@@ -3,6 +3,7 @@ import { RiDislikeLine, RiDislikeFill } from "react-icons/ri";
 import firebase from "../services/firebase-config";
 import { useUser } from "../contexts/UserProvider";
 import { Link } from "react-router-dom";
+import { FaRegComment } from "react-icons/fa";
 
 const Dislike = ({ UID, likes, id, username }) => {
   const [loggedInUsername, setLoggedInUsername] = useState("");
@@ -82,11 +83,26 @@ const Dislike = ({ UID, likes, id, username }) => {
 
   return (
     <>
-      {isDisliked ? (
-        <RiDislikeFill className="ml-4 text-2xl mt-2" onClick={handleDislike} />
-      ) : (
-        <RiDislikeLine className="ml-4 text-2xl mt-2" onClick={handleDislike} />
-      )}
+      <div className="flex">
+        {isDisliked ? (
+          <RiDislikeFill
+            className="ml-4 text-2xl mt-2"
+            onClick={handleDislike}
+          />
+        ) : (
+          <RiDislikeLine
+            className="ml-4 text-2xl mt-2"
+            onClick={handleDislike}
+          />
+        )}
+        <Link
+          to={`/${username}/post/${id}/comments`}
+          className="mt-2 text-xl ml-3"
+        >
+          <FaRegComment />
+        </Link>
+      </div>
+
       {likes && (
         <Link to={`/${username}/post/${id}/dislikes`}>
           <p className="ml-4 text-gray-500 text-sm">{likes.length} dislike</p>

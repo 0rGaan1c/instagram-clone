@@ -90,9 +90,20 @@ const Feed = () => {
       {sortedPosts.length ? (
         sortedPosts.map(
           (
-            { username, caption, timestamp, url, photoURL, id, likes, UID },
+            {
+              username,
+              caption,
+              timestamp,
+              url,
+              photoURL,
+              id,
+              likes,
+              UID,
+              comments,
+            },
             idx
           ) => {
+            console.log(comments);
             return (
               <div key={idx} className="mb-8">
                 <div className="bg-grey-300 flex items-center text-xl p-3">
@@ -119,6 +130,29 @@ const Feed = () => {
                     {caption}
                   </p>
                 )}
+
+                {comments && comments.length !== 0 && (
+                  <div className="w-full mt-2">
+                    <Link
+                      to={`/${username}/post/${id}/comments`}
+                      className="ml-4 text-gray-500 text-sm"
+                    >
+                      View all {comments.length} comments
+                    </Link>
+                    <div className="flex items-center w-11/12 mx-auto">
+                      <Link to={`/${comments[0].username}`}>
+                        <div className="font-bold text-sm">
+                          {comments[0].username}
+                        </div>
+                      </Link>
+                      <div className="ml-2 leading-tight text-sm">
+                        {comments[0].comment.substring(0, 45)}
+                        {comments[0].comment.length > 45 && <span>...</span>}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {last - 1 === idx ? (
                   <p className="text-xs text-gray-500 mt-4 ml-4 mb-20">
                     {new Date(timestamp.seconds * 1000).toDateString()}

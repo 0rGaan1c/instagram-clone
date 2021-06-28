@@ -16,15 +16,6 @@ const DeleteProfile = ({ uid }) => {
     e.preventDefault();
     const db = firebase.firestore();
 
-    currentUser
-      .delete()
-      .then(() => {
-        console.log("user account deleted");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
     db.collection("users")
       .get()
       .then((querySnapshot) => {
@@ -72,12 +63,75 @@ const DeleteProfile = ({ uid }) => {
 
     db.collection("users")
       .doc(uid)
+      .collection("posts")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.docs.forEach((doc) => {
+          console.log(doc.data());
+          db.collection("users")
+            .doc(uid)
+            .collection("posts")
+            .doc(doc.id)
+            .delete()
+            .then(() => {
+              console.log("Deleting posts");
+            });
+        });
+      });
+
+    db.collection("users")
+      .doc(uid)
+      .collection("followers")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.docs.forEach((doc) => {
+          console.log(doc.data());
+          db.collection("users")
+            .doc(uid)
+            .collection("followers")
+            .doc(doc.id)
+            .delete()
+            .then(() => {
+              console.log("Deleting followers");
+            });
+        });
+      });
+
+    db.collection("users")
+      .doc(uid)
+      .collection("following")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.docs.forEach((doc) => {
+          console.log(doc.data());
+          db.collection("users")
+            .doc(uid)
+            .collection("following")
+            .doc(doc.id)
+            .delete()
+            .then(() => {
+              console.log("Deleting following");
+            });
+        });
+      });
+
+    db.collection("users")
+      .doc(uid)
       .delete()
       .then(() => {
         console.log("Deleted User");
       })
       .catch((error) => {
         console.log("Error deleting user", error);
+      });
+
+    currentUser
+      .delete()
+      .then(() => {
+        console.log("user account deleted");
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 

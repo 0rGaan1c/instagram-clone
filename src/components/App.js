@@ -11,6 +11,7 @@ import DiscoverPeople from "./DiscoverPeople";
 import FollowersList from "./FollowersList";
 import FollowingList from "./FollowingList";
 import DislikeList from "./DislikeList";
+import Comments from "./Comments";
 
 const App = () => {
   return (
@@ -49,6 +50,11 @@ const App = () => {
               exact
               path="/:username/post/:id/dislikes"
               component={DislikeList}
+            />
+            <PrivateRoute
+              exact
+              path="/:username/post/:id/comments"
+              component={Comments}
             />
           </Switch>
         </Router>

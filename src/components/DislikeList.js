@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import firebase from "../services/firebase-config";
+import TopBar from "./TopBar";
 
 const DislikeList = () => {
   const [dislikes, setDislikes] = useState([]);
@@ -28,6 +29,7 @@ const DislikeList = () => {
 
   return (
     <>
+      <TopBar show={"Dislikes"} />
       {dislikes.map((user, idx) => {
         return (
           <Link to={`/${user}`} key={idx}>
