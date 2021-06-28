@@ -103,7 +103,6 @@ const Feed = () => {
             },
             idx
           ) => {
-            console.log(comments);
             return (
               <div key={idx} className="mb-8">
                 <div className="bg-grey-300 flex items-center text-xl p-3">
@@ -125,7 +124,7 @@ const Feed = () => {
                 </Link>
                 <Dislike UID={UID} id={id} likes={likes} username={username} />
                 {caption !== "" && (
-                  <p className="mt-2 ml-4">
+                  <p className="mt-2 ml-4 leading-tight">
                     <span className="font-bold mr-2">{username}</span>
                     {caption}
                   </p>

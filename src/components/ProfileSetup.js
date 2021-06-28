@@ -31,11 +31,9 @@ const ProfileSetup = () => {
     const docRef = db.collection("users").doc(uid);
     docRef.get().then((doc) => {
       if (doc.exists) {
-        console.log("user is already there");
         setIsUser(true);
       } else {
         setShowPage(true);
-        console.log("user is not there");
       }
     });
   }, [isUser, uid]);

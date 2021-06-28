@@ -79,9 +79,9 @@ const Comments = () => {
       ...comments,
       { username: userInfo.username, comment: commentValue },
     ]);
+    setCommentValue("");
   };
 
-  console.log(comments);
   return (
     <>
       <TopBar show={"Comments"} />
@@ -100,6 +100,7 @@ const Comments = () => {
             type="text"
             placeholder="Add a comment..."
             className="outline-none focus:outline-none ml-2 w-full rounded-lg"
+            value={commentValue}
             onChange={(e) => {
               setCommentValue(e.target.value);
             }}

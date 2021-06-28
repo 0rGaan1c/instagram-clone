@@ -96,7 +96,7 @@ const Post = () => {
         <Dislike UID={UID} likes={post.likes} id={id} username={username} />
       )}
       {post.caption !== "" && (
-        <p className="mt-2 ml-4">
+        <p className="mt-2 ml-4 leading-tight">
           <span className="font-bold mr-2">{post.username}</span>
           {post.caption}
         </p>
