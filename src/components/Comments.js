@@ -124,7 +124,9 @@ const Comments = () => {
                 <Link to={`/${username}`}>
                   <div className="font-bold text-lg">{username} </div>
                 </Link>
-                <div className="ml-2 text-gray-500">{comment}</div>
+                <div className="ml-2 text-gray-500 leading-tight">
+                  {comment}
+                </div>
               </div>
             );
           })}
