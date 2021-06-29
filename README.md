@@ -13,3 +13,9 @@
 - React
 - Firebase
 - TailwindCSS
+
+## How to run?
+
+1. Create a new project in firebase.
+2. Configure the web app by putting your firebase configs in the .env.local file.
+3. Then simply run npm install && npm start in the terminal and it should work.
