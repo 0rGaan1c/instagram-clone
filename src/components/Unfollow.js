@@ -73,7 +73,7 @@ const Unfollow = ({ username, uid, setIsFollowing, loggedInUsername }) => {
   return (
     <>
       <div
-        className="text-center text-sm py-1 text-black font-bold bg-white border-2 border-gray-500 rounded-sm"
+        className="text-center text-sm py-1 text-black font-bold bg-white border-2 border-gray-500 rounded-sm cursor-pointer"
         onClick={handleUnfollow}
       >
         Unfollow

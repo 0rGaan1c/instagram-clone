@@ -71,7 +71,7 @@ const Follow = ({ username }) => {
           loggedInUsername={loggedInUsername}
         />
       ) : (
-        <div className="w-11/12 mx-auto bg-blue-400 rounded-sm">
+        <div className="w-11/12 mx-auto bg-blue-400 rounded-sm cursor-pointer">
           <div
             className="text-center text-sm py-1 text-white font-bold"
             onClick={handleFollow}

@@ -9,7 +9,10 @@ const TopBar = ({ show }) => {
     <>
       <nav className="bg-gray-100 text-xl p-2">
         <div className="flex items-center" style={{ width: "65%" }}>
-          <HiChevronLeft onClick={() => history.goBack()} />
+          <HiChevronLeft
+            className="cursor-pointer"
+            onClick={() => history.goBack()}
+          />
           <h1 className="ml-auto">{show}</h1>
         </div>
       </nav>

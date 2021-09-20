@@ -74,14 +74,16 @@ const Profile = () => {
     <>
       {isUserValid ? (
         <>
-          {isProtected ? (
-            <ProtectedProfile userInfo={userInfo} />
-          ) : (
-            <>
-              <UserProfile userInfo={userInfo} />
-            </>
-          )}
-          <NavBar />
+          <div className="lg:w-1/3 lg:m-auto">
+            {isProtected ? (
+              <ProtectedProfile userInfo={userInfo} />
+            ) : (
+              <>
+                <UserProfile userInfo={userInfo} />
+              </>
+            )}
+            <NavBar />
+          </div>
         </>
       ) : (
         <div className="text-center mt-8 w-3/4 mx-auto">

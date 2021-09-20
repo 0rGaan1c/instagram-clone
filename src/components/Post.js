@@ -73,57 +73,58 @@ const Post = () => {
 
   return (
     <>
-      <TopBar show={"Photo"} />
-      <div className="bg-grey-300 flex items-center text-xl p-3">
-        <div className="w-1/12 cursor-pointer">
-          <Link to={`/${username}`}>
-            <img
-              src={userInfo.photoURL}
-              alt=""
-              className="rounded-full cursor-pointer"
-            />
-          </Link>
-        </div>
-        <div className="text-sm ml-4 font-bold">{userInfo.username}</div>
-        {!isProtected && (
-          <FaTrash className="ml-auto" onClick={handlePostDelete} />
-        )}
-      </div>
-      <div className="">
-        <img src={post.url} alt={post.caption} className="block mx-auto" />
-      </div>
-      {post.likes && (
-        <Dislike UID={UID} likes={post.likes} id={id} username={username} />
-      )}
-      {post.caption !== "" && (
-        <p className="mt-2 ml-4 leading-tight">
-          <span className="font-bold mr-2">{post.username}</span>
-          {post.caption}
-        </p>
-      )}
-
-      {post && post.comments && post.comments.length !== 0 && (
-        <div className="w-full mt-2">
-          <Link
-            to={`/${username}/post/${id}/comments`}
-            className="ml-4 text-gray-500 text-sm"
-          >
-            View all {post.comments.length} comments
-          </Link>
-          <div className="flex items-center w-11/12 mx-auto">
-            <Link to={`/${post.comments[0].username}`}>
-              <div className="font-bold text-sm">
-                {post.comments[0].username}
-              </div>
+      <div className="lg:w-1/3 lg:m-auto">
+        <TopBar show={"Photo"} />
+        <div className="bg-grey-300 flex items-center text-xl p-3">
+          <div className="w-1/12 cursor-pointer">
+            <Link to={`/${username}`}>
+              <img
+                src={userInfo.photoURL}
+                alt=""
+                className="rounded-full cursor-pointer"
+              />
             </Link>
-            <div className="ml-2 text-sm">
-              {post.comments[0].comment.substring(0, 45)}
-              {post.comments[0].comment.length > 45 && <span>...</span>}
+          </div>
+          <div className="text-sm ml-4 font-bold">{userInfo.username}</div>
+          {!isProtected && (
+            <FaTrash className="ml-auto" onClick={handlePostDelete} />
+          )}
+        </div>
+        <div className="">
+          <img src={post.url} alt={post.caption} className="block mx-auto" />
+        </div>
+        {post.likes && (
+          <Dislike UID={UID} likes={post.likes} id={id} username={username} />
+        )}
+        {post.caption !== "" && (
+          <p className="mt-2 ml-4 leading-tight">
+            <span className="font-bold mr-2">{post.username}</span>
+            {post.caption}
+          </p>
+        )}
+        {post && post.comments && post.comments.length !== 0 && (
+          <div className="w-full mt-2">
+            <Link
+              to={`/${username}/post/${id}/comments`}
+              className="ml-4 text-gray-500 text-sm"
+            >
+              View all {post.comments.length} comments
+            </Link>
+            <div className="flex items-center w-11/12 mx-auto">
+              <Link to={`/${post.comments[0].username}`}>
+                <div className="font-bold text-sm">
+                  {post.comments[0].username}
+                </div>
+              </Link>
+              <div className="ml-2 text-sm">
+                {post.comments[0].comment.substring(0, 45)}
+                {post.comments[0].comment.length > 45 && <span>...</span>}
+              </div>
             </div>
           </div>
-        </div>
-      )}
-      <p className="text-xs text-gray-500 mt-4 ml-4">{post.timestamp}</p>
+        )}
+        <p className="text-xs text-gray-500 mt-4 ml-4">{post.timestamp}</p>
+      </div>
     </>
   );
 };

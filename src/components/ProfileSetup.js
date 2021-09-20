@@ -86,7 +86,7 @@ const ProfileSetup = () => {
   return (
     <>
       {showPage && (
-        <div className="w-3/4 mx-auto mt-64">
+        <div className="lg:w-1/3 lg:ml-auto w-3/4 mx-auto mt-64">
           <form>
             <label>
               <p className="mb-2">Choose a username</p>

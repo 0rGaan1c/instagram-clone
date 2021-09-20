@@ -29,16 +29,18 @@ const DislikeList = () => {
 
   return (
     <>
-      <TopBar show={"Dislikes"} />
-      {dislikes.map((user, idx) => {
-        return (
-          <Link to={`/${user}`} key={idx}>
-            <div className="text-center bg-gray-400 text-white font-bold text-xl py-2">
-              {user}
-            </div>
-          </Link>
-        );
-      })}
+      <div className="lg:w-1/3 lg:m-auto">
+        <TopBar show={"Dislikes"} />
+        {dislikes.map((user, idx) => {
+          return (
+            <Link to={`/${user}`} key={idx}>
+              <div className="text-center bg-gray-400 text-white font-bold text-xl py-2">
+                {user}
+              </div>
+            </Link>
+          );
+        })}
+      </div>
     </>
   );
 };

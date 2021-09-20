@@ -83,97 +83,103 @@ const Feed = () => {
 
   return (
     <>
-      <nav className="bg-gray-100 flex items-center text-xl justify-between p-2">
-        <h1 className="font-bold tracking-wide">Instagram</h1>
-        <FaSignOutAlt onClick={signOut} />
-      </nav>
-      {sortedPosts.length ? (
-        sortedPosts.map(
-          (
-            {
-              username,
-              caption,
-              timestamp,
-              url,
-              photoURL,
-              id,
-              likes,
-              UID,
-              comments,
-            },
-            idx
-          ) => {
-            return (
-              <div key={idx} className="mb-8">
-                <div className="bg-grey-300 flex items-center text-xl p-3">
-                  <div className="w-1/12 cursor-pointer">
-                    <Link to={`/${username}`}>
-                      <img
-                        src={photoURL}
-                        alt=""
-                        className="rounded-full cursor-pointer"
-                      />
-                    </Link>
-                  </div>
-                  <div className="text-sm ml-4 font-bold">{username}</div>
-                </div>
-                <Link to={`/${username}/post/${id}`}>
-                  <div>
-                    <img src={url} alt={caption} className="mx-auto" />
-                  </div>
-                </Link>
-                <Dislike UID={UID} id={id} likes={likes} username={username} />
-                {caption !== "" && (
-                  <p className="mt-2 ml-4 leading-tight">
-                    <span className="font-bold mr-2">{username}</span>
-                    {caption}
-                  </p>
-                )}
-
-                {comments && comments.length !== 0 && (
-                  <div className="w-full mt-2">
-                    <Link
-                      to={`/${username}/post/${id}/comments`}
-                      className="ml-4 text-gray-500 text-sm"
-                    >
-                      View all {comments.length} comments
-                    </Link>
-                    <div className="flex items-center w-11/12 mx-auto">
-                      <Link to={`/${comments[0].username}`}>
-                        <div className="font-bold text-sm">
-                          {comments[0].username}
-                        </div>
+      <div className="lg:w-1/3 lg:m-auto">
+        <nav className="bg-gray-100 flex items-center text-xl justify-between p-2">
+          <h1 className="font-bold tracking-wide">Instagram</h1>
+          <FaSignOutAlt onClick={signOut} />
+        </nav>
+        {sortedPosts.length ? (
+          sortedPosts.map(
+            (
+              {
+                username,
+                caption,
+                timestamp,
+                url,
+                photoURL,
+                id,
+                likes,
+                UID,
+                comments,
+              },
+              idx
+            ) => {
+              return (
+                <div key={idx} className="mb-8">
+                  <div className="bg-grey-300 flex items-center text-xl p-3">
+                    <div className="w-1/12 cursor-pointer">
+                      <Link to={`/${username}`}>
+                        <img
+                          src={photoURL}
+                          alt=""
+                          className="rounded-full cursor-pointer"
+                        />
                       </Link>
-                      <div className="ml-2 leading-tight text-sm">
-                        {comments[0].comment.substring(0, 45)}
-                        {comments[0].comment.length > 45 && <span>...</span>}
+                    </div>
+                    <div className="text-sm ml-4 font-bold">{username}</div>
+                  </div>
+                  <Link to={`/${username}/post/${id}`}>
+                    <div>
+                      <img src={url} alt={caption} className="mx-auto" />
+                    </div>
+                  </Link>
+                  <Dislike
+                    UID={UID}
+                    id={id}
+                    likes={likes}
+                    username={username}
+                  />
+                  {caption !== "" && (
+                    <p className="mt-2 ml-4 leading-tight">
+                      <span className="font-bold mr-2">{username}</span>
+                      {caption}
+                    </p>
+                  )}
+
+                  {comments && comments.length !== 0 && (
+                    <div className="w-full mt-2">
+                      <Link
+                        to={`/${username}/post/${id}/comments`}
+                        className="ml-4 text-gray-500 text-sm"
+                      >
+                        View all {comments.length} comments
+                      </Link>
+                      <div className="flex items-center w-11/12 mx-auto">
+                        <Link to={`/${comments[0].username}`}>
+                          <div className="font-bold text-sm">
+                            {comments[0].username}
+                          </div>
+                        </Link>
+                        <div className="ml-2 leading-tight text-sm">
+                          {comments[0].comment.substring(0, 45)}
+                          {comments[0].comment.length > 45 && <span>...</span>}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {last - 1 === idx ? (
-                  <p className="text-xs text-gray-500 mt-4 ml-4 mb-20">
-                    {new Date(timestamp.seconds * 1000).toDateString()}
-                  </p>
-                ) : (
-                  <p className="text-xs text-gray-500 mt-4 ml-4">
-                    {new Date(timestamp.seconds * 1000).toDateString()}
-                  </p>
-                )}
-              </div>
-            );
-          }
-        )
-      ) : (
-        <div className="text-center mt-8 w-4/5 mx-auto">
-          <h2 className="text-2xl">Welcome to Instagram</h2>
-          <p className="text-sm text-gray-500">
-            When you follow people you'll see the photos they post here.
-          </p>
-        </div>
-      )}
-
+                  {last - 1 === idx ? (
+                    <p className="text-xs text-gray-500 mt-4 ml-4 mb-20">
+                      {new Date(timestamp.seconds * 1000).toDateString()}
+                    </p>
+                  ) : (
+                    <p className="text-xs text-gray-500 mt-4 ml-4">
+                      {new Date(timestamp.seconds * 1000).toDateString()}
+                    </p>
+                  )}
+                </div>
+              );
+            }
+          )
+        ) : (
+          <div className="text-center mt-8 w-4/5 mx-auto">
+            <h2 className="text-2xl">Welcome to Instagram</h2>
+            <p className="text-sm text-gray-500">
+              When you follow people you'll see the photos they post here.
+            </p>
+          </div>
+        )}
+      </div>
       <NavBar />
     </>
   );

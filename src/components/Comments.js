@@ -84,54 +84,56 @@ const Comments = () => {
 
   return (
     <>
-      <TopBar show={"Comments"} />
-      <div className="flex w-11/12 mx-auto py-2">
-        <div className="w-1/12 cursor-pointer">
-          <Link to={`/${userInfo.username}`}>
-            <img
-              src={userInfo.photoURL}
-              alt=""
-              className="rounded-full cursor-pointer"
+      <div className="lg:w-1/3 lg:m-auto">
+        <TopBar show={"Comments"} />
+        <div className="flex w-11/12 mx-auto py-2">
+          <div className="w-1/12 cursor-pointer">
+            <Link to={`/${userInfo.username}`}>
+              <img
+                src={userInfo.photoURL}
+                alt=""
+                className="rounded-full cursor-pointer"
+              />
+            </Link>
+          </div>
+          <div className="w-full flex border-2 border-black rounded-lg ml-2">
+            <input
+              type="text"
+              placeholder="Add a comment..."
+              className="outline-none focus:outline-none ml-2 w-full rounded-lg"
+              value={commentValue}
+              onChange={(e) => {
+                setCommentValue(e.target.value);
+              }}
             />
-          </Link>
+            {commentValue && (
+              <button
+                className="text-blue-600 mr-2 font-bold"
+                onClick={handleAddComment}
+              >
+                Post
+              </button>
+            )}
+          </div>
         </div>
-        <div className="w-full flex border-2 border-black rounded-lg ml-2">
-          <input
-            type="text"
-            placeholder="Add a comment..."
-            className="outline-none focus:outline-none ml-2 w-full rounded-lg"
-            value={commentValue}
-            onChange={(e) => {
-              setCommentValue(e.target.value);
-            }}
-          />
-          {commentValue && (
-            <button
-              className="text-blue-600 mr-2 font-bold"
-              onClick={handleAddComment}
-            >
-              Post
-            </button>
-          )}
-        </div>
-      </div>
-      {comments.length && comments.length !== 0 ? (
-        <div className="mt-2 w-11/12 mx-auto">
-          <hr />
-          {comments.map(({ username, comment }, idx) => {
-            return (
-              <div className="flex mt-4 items-center" key={idx}>
-                <Link to={`/${username}`}>
-                  <div className="font-bold text-lg">{username} </div>
-                </Link>
-                <div className="ml-2 text-gray-500 leading-tight">
-                  {comment}
+        {comments.length && comments.length !== 0 ? (
+          <div className="mt-2 w-11/12 mx-auto">
+            <hr />
+            {comments.map(({ username, comment }, idx) => {
+              return (
+                <div className="flex mt-4 items-center" key={idx}>
+                  <Link to={`/${username}`}>
+                    <div className="font-bold text-lg">{username} </div>
+                  </Link>
+                  <div className="ml-2 text-gray-500 leading-tight">
+                    {comment}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-      ) : null}
+              );
+            })}
+          </div>
+        ) : null}
+      </div>
     </>
   );
 };
