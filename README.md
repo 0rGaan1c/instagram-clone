@@ -1,11 +1,15 @@
-# Instagram Clone
+## Instagram Clone - [Live Demo](https://instagram-clone-b7e9f.web.app/)
+
+- An Instagram Clone that allows users to create a profile, upload pictures and interact with other users.
+- Built using React.js and Firebase.
+
+**Features** 
+- Functionality to create an account and choose a username.
+- Allows users to edit and to delete their profile.
+- Users can upload pictures, follow other users and see posts mady by other users in their home feed.
+- Users can also like a post and comment on it.
 
 ![screenshot](./screenshot.png)
-
-- [Live Demo](https://instagram-clone-b7e9f.web.app/)
-- A simple Instagram clone with basics features.
-- This project took me a lot of time to complete, but I learned a lot in the process.
-- This project has some bugs that I am having trouble debugging currently but I will fix these issues after learning a bit more.
 
 ## Tech Stack
 
