@@ -70,7 +70,9 @@ const ProfileSetup = () => {
         console.log("add user to database");
         docRef.set({
           name: displayName,
-          photoURL,
+          photoURL: photoURL
+            ? photoURL
+            : "https://i.ibb.co/VLM5JMN/78-786207-user-avatar-png-user-avatar-icon-png-transparent.png",
           username,
         });
       }

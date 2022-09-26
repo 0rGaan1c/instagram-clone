@@ -13,7 +13,7 @@ const UserProfile = ({ userInfo }) => {
           <AiFillCamera />
         </Link>
         <h1>{userInfo.username}</h1>
-        <FaSignOutAlt onClick={signOut} />
+        <FaSignOutAlt onClick={signOut} className="cursor-pointer" />
       </nav>
       <div className="w-11/12 mx-auto mt-4 flex items-center">
         <div>
@@ -21,12 +21,14 @@ const UserProfile = ({ userInfo }) => {
         </div>
         <div className="w-9/12 ml-2">
           <h2 className="text-2xl text-center mb-2">{userInfo.username}</h2>
-          <div className="w-11/12 mx-auto border-2 border-gray-200 rounded-sm">
-            <div className="text-center text-sm mb-1">
-              {/* <Link to="/editprofile">Edit Profile</Link> */}
-              <Link to={`/${userInfo.username}/edit`}>Edit Profile</Link>
+          <Link to={`/${userInfo.username}/edit`}>
+            <div className="w-11/12 mx-auto border-2 border-gray-200 rounded-sm">
+              <div className="text-center text-sm mb-1">
+                {/* <Link to="/editprofile">Edit Profile</Link> */}
+                Edit Profile
+              </div>
             </div>
-          </div>
+          </Link>
         </div>
       </div>
       <h3 className="w-11/12 ml-auto mt-4 font-sm font-bold">

@@ -86,7 +86,7 @@ const Feed = () => {
       <div className="lg:w-1/3 lg:m-auto">
         <nav className="bg-gray-100 flex items-center text-xl justify-between p-2">
           <h1 className="font-bold tracking-wide">Instagram</h1>
-          <FaSignOutAlt onClick={signOut} />
+          <FaSignOutAlt onClick={signOut} className="cursor-pointer" />
         </nav>
         {sortedPosts.length ? (
           sortedPosts.map(
