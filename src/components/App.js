@@ -1,17 +1,17 @@
 import React from "react";
 import { UserProvider } from "../contexts/UserProvider";
-import Signin from "./Signin";
+import Signin from "../pages/Signin";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
-import Profile from "./Profile";
-import EditProfile from "./EditProfile";
-import ImageUpload from "./ImageUpload";
-import Post from "./Post";
-import DiscoverPeople from "./DiscoverPeople";
-import FollowersList from "./FollowersList";
-import FollowingList from "./FollowingList";
-import DislikeList from "./DislikeList";
-import Comments from "./Comments";
+import Profile from "../pages/Profile";
+import EditProfile from "../pages/EditProfile";
+import ImageUpload from "../pages/ImageUpload";
+import Post from "../pages/Post";
+import DiscoverPeople from "../pages/DiscoverPeople";
+import FollowersList from "../pages/FollowersList";
+import FollowingList from "../pages/FollowingList";
+import DislikeList from "../pages/DislikeList";
+import Comments from "../pages/Comments";
 
 const App = () => {
   return (
