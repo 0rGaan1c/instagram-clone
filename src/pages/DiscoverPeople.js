@@ -67,12 +67,16 @@ const DiscoverPeople = () => {
               >
                 <Link to={`/${username}`}>
                   <div className="flex">
-                    <div className="w-3/12">
-                      <img src={photoURL} alt={name} className="rounded-full" />
+                    <div className="w-14">
+                      <img
+                        src={photoURL}
+                        alt={name}
+                        className="rounded-full object-contain"
+                      />
                     </div>
-                    <div className="text-sm ml-2">
+                    <div className="text-sm ml-2 flex flex-col justify-center">
                       <div className="ml-2">{username}</div>
-                      <div className="-mt-2 text-gray-400">{name}</div>
+                      <div className=" text-gray-400">{name}</div>
                     </div>
                   </div>
                 </Link>

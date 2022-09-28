@@ -78,9 +78,6 @@ const Feed = () => {
     }
   }, [posts]);
 
-  // console.log(posts);
-  // console.log(sortedPosts);
-
   return (
     <>
       <div className="lg:w-1/3 lg:m-auto">

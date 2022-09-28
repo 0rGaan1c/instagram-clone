@@ -139,7 +139,7 @@ const DeleteProfile = ({ uid }) => {
     <>
       <hr className="mt-10"></hr>
       <div className="mt-10">
-        <h2 className="text-red-500 text-lg" onClick={openModal}>
+        <h2 className="text-red-500 text-lg cursor-pointer" onClick={openModal}>
           Delete your account?
         </h2>
         {showModal && (
